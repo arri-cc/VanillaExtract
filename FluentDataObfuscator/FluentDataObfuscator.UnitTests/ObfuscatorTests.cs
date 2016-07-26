@@ -8,7 +8,7 @@ namespace FluentDataObfuscator.UnitTests
     public class ObfuscatorTests
     {
         [Test]
-        public void Works()
+        public void Configuration_Works()
         {
             var config = new ObfuscatorConfiguration();
 
@@ -24,6 +24,32 @@ namespace FluentDataObfuscator.UnitTests
             Assert.That(config.Obfuscators.Count(), Is.EqualTo(2));
             Assert.That(config.Obfuscators.First().Obfuscations["field"], Is.TypeOf<FirstNameObfuscation>());
             Assert.That(config.Obfuscators.First().Obfuscations.Count(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void Obfuscation_Works()
+        {
+            var config = new ObfuscatorConfiguration();
+
+            config
+                .ForTable("table1")
+                .WithField("field", ObfuscationType.FirstName)
+                .WithField("ssn", ObfuscationType.Ssn);
+
+            var obfuscator = config.Obfuscators.First(x => x.Table == "table1");
+
+            var input = new
+            {
+                Field = "field",
+                Ssn = "ssn"
+            };
+
+            var output = obfuscator.Obfuscate(input);
+
+            Assert.That(output.ContainsKey("field"), Is.True);
+            Assert.That(output["field"], Is.EqualTo("FirstName"));
+            Assert.That(output.ContainsKey("ssn"), Is.True);
+            Assert.That(output["ssn"], Is.EqualTo("000-00-0000"));
         }
     }
 }
