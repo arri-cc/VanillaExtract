@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace FluentDataObfuscator.Infrastructure
 {
@@ -26,13 +25,20 @@ namespace FluentDataObfuscator.Infrastructure
 
         public IDictionary<string, object> Obfuscate(object input)
         {
-            return input.GetType().GetProperties()
-                .Select(prop => prop.Name)
-                .Where(name => _obfuscations.ContainsKey(name))
-                .ToDictionary(
-                    name => name,
-                    name => _obfuscations[name].Obfuscate(),
-                    StringComparer.InvariantCultureIgnoreCase);
+            var output = new Dictionary<string, object>(StringComparer.InvariantCultureIgnoreCase);
+
+            foreach (var prop in input.GetType().GetProperties())
+            {
+                var name = prop.Name;
+                var value = prop.GetValue(input);
+
+                if (_obfuscations.ContainsKey(name))
+                    value = _obfuscations[name].Obfuscate();
+
+                output.Add(name, value);
+            }
+
+            return output;
         }
     }
 }

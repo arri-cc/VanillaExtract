@@ -51,5 +51,30 @@ namespace FluentDataObfuscator.UnitTests
             Assert.That(output.ContainsKey("ssn"), Is.True);
             Assert.That(output["ssn"], Is.EqualTo("000-00-0000"));
         }
+
+        [Test]
+        public void Obfuscation_WithMissingField_Works()
+        {
+            var config = new ObfuscatorConfiguration();
+
+            config
+                .ForTable("table1")
+                .WithField("field", ObfuscationType.FirstName)
+                .WithField("ssn", ObfuscationType.Ssn);
+
+            var obfuscator = config.Obfuscators.First(x => x.Table == "table1");
+
+            var input = new
+            {
+                Field = "field",
+                Ssn = "ssn",
+                FullName = "full name"
+            };
+
+            var output = obfuscator.Obfuscate(input);
+
+            Assert.That(output.ContainsKey("fullname"), Is.True);
+            Assert.That(output["fullname"], Is.EqualTo("full name"));
+        }
     }
 }
