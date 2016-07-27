@@ -2,6 +2,6 @@
 {
     public interface IObfuscatorRegistration
     {
-        IObfuscatorRegistration WithField(string field, ObfuscationType type);
+        IObfuscatorRegistration WithField<TObfuscation>(string field) where TObfuscation : IObfuscation;
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FluentDataObfuscator.Infrastructure
 {
@@ -7,19 +8,20 @@ namespace FluentDataObfuscator.Infrastructure
     {
         public string Table { get; }
 
-        private readonly IDictionary<string, IObfuscation> _obfuscations;
+        private readonly IList<FieldObfuscation> _obfuscations;
 
-        public IReadOnlyDictionary<string, IObfuscation> Obfuscations => (IReadOnlyDictionary<string, IObfuscation>)_obfuscations;
+        public IEnumerable<FieldObfuscation> Obfuscations => _obfuscations.AsEnumerable();
 
         public ObfuscatorRegistration(string table)
         {
             Table = table.ToLower();
-            _obfuscations = new Dictionary<string, IObfuscation>(StringComparer.InvariantCultureIgnoreCase);
+            _obfuscations = new List<FieldObfuscation>();
         }
 
-        public IObfuscatorRegistration WithField(string field, ObfuscationType type)
+        public IObfuscatorRegistration WithField<TObfuscation>(string field)
+            where TObfuscation : IObfuscation
         {
-            _obfuscations.Add(field, ObfuscationFactory.Create(type));
+            _obfuscations.Add(new FieldObfuscation(field, Activator.CreateInstance<TObfuscation>()));
             return this;
         }
     }

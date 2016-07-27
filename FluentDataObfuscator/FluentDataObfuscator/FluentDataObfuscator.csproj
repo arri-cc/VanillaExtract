@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\DataGenerator.cs" />
+    <Compile Include="Infrastructure\FieldObfuscation.cs" />
     <Compile Include="Infrastructure\IObfuscatorRegistration.cs" />
     <Compile Include="Infrastructure\ObfuscationFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationType.cs" />
