@@ -5,14 +5,22 @@ namespace FluentDataObfuscator.Infrastructure
 {
     public class ObfuscatorConfiguration
     {
-        private readonly IList<Obfuscator> _obfuscators = new List<Obfuscator>();
+        private readonly IList<ObfuscatorRegistration> _registrations = new List<ObfuscatorRegistration>();
 
-        public IEnumerable<Obfuscator> Obfuscators => _obfuscators.AsEnumerable();
+        public IEnumerable<ObfuscatorRegistration> Registrations => _registrations.AsEnumerable();
 
-        public Obfuscator ForTable(string table)
+        public IObfuscatorRegistration ForTable(string table)
         {
-            _obfuscators.Add(new Obfuscator(table));
-            return _obfuscators.First(x => x.Table == table);
+            _registrations.Add(new ObfuscatorRegistration(table));
+            return _registrations.Last();
+        }
+
+        public Obfuscator GetObfuscatorFor(string table)
+        {
+            return _registrations
+                .Where(x => x.Table == table.ToLower())
+                .Select(x => new Obfuscator(x.Table, x.Obfuscations))
+                .Single();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace FluentDataObfuscator.UnitTests
                 .ForTable("table2")
                 .WithField("field", ObfuscationType.FirstName);
 
-            Assert.That(config.Obfuscators.Count(), Is.EqualTo(2));
-            Assert.That(config.Obfuscators.First().Obfuscations["field"], Is.TypeOf<FirstNameObfuscation>());
-            Assert.That(config.Obfuscators.First().Obfuscations.Count(), Is.EqualTo(2));
+            Assert.That(config.Registrations.Count(), Is.EqualTo(2));
+            Assert.That(config.GetObfuscatorFor("table1").Obfuscations["field"], Is.TypeOf<FirstNameObfuscation>());
+            Assert.That(config.GetObfuscatorFor("table1").Obfuscations.Count(), Is.EqualTo(2));
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace FluentDataObfuscator.UnitTests
                 .WithField("field", ObfuscationType.FirstName)
                 .WithField("ssn", ObfuscationType.Ssn);
 
-            var obfuscator = config.Obfuscators.First(x => x.Table == "table1");
+            var obfuscator = config.GetObfuscatorFor("table1");
 
             var input = new
             {
@@ -62,7 +62,7 @@ namespace FluentDataObfuscator.UnitTests
                 .WithField("field", ObfuscationType.FirstName)
                 .WithField("ssn", ObfuscationType.Ssn);
 
-            var obfuscator = config.Obfuscators.First(x => x.Table == "table1");
+            var obfuscator = config.GetObfuscatorFor("table1");
 
             var input = new
             {

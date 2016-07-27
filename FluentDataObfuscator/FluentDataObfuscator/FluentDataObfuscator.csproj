@@ -45,10 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\DataGenerator.cs" />
+    <Compile Include="Infrastructure\IObfuscatorRegistration.cs" />
     <Compile Include="Infrastructure\ObfuscationFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationType.cs" />
     <Compile Include="Infrastructure\Obfuscator.cs" />
     <Compile Include="Infrastructure\ObfuscatorConfiguration.cs" />
+    <Compile Include="Infrastructure\ObfuscatorRegistration.cs" />
     <Compile Include="Obfuscations\FirstNameObfuscation.cs" />
     <Compile Include="Infrastructure\IDataGenerator.cs" />
     <Compile Include="Infrastructure\IObfuscation.cs" />

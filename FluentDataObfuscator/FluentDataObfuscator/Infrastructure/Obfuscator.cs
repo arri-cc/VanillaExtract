@@ -5,22 +5,14 @@ namespace FluentDataObfuscator.Infrastructure
 {
     public class Obfuscator
     {
-        private readonly IDictionary<string, IObfuscation> _obfuscations;
-
         public string Table { get; }
 
-        public IReadOnlyDictionary<string, IObfuscation> Obfuscations => (IReadOnlyDictionary<string, IObfuscation>)_obfuscations;
+        public IReadOnlyDictionary<string, IObfuscation> Obfuscations { get; }
 
-        public Obfuscator(string table)
+        public Obfuscator(string table, IReadOnlyDictionary<string, IObfuscation> obfuscations)
         {
             Table = table;
-            _obfuscations = new Dictionary<string, IObfuscation>(StringComparer.InvariantCultureIgnoreCase);
-        }
-
-        public Obfuscator WithField(string field, ObfuscationType type)
-        {
-            _obfuscations.Add(field, ObfuscationFactory.Create(type));
-            return this;
+            Obfuscations = obfuscations;
         }
 
         public IDictionary<string, object> Obfuscate(object input)
@@ -32,8 +24,8 @@ namespace FluentDataObfuscator.Infrastructure
                 var name = prop.Name;
                 var value = prop.GetValue(input);
 
-                if (_obfuscations.ContainsKey(name))
-                    value = _obfuscations[name].Obfuscate();
+                if (Obfuscations.ContainsKey(name))
+                    value = Obfuscations[name].Obfuscate();
 
                 output.Add(name, value);
             }
