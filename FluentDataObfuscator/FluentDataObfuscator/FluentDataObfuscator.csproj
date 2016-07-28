@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Faker.NET4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Faker.Net.1.0.3\lib\net40\Faker.NET4.dll</HintPath>
       <Private>True</Private>
@@ -44,14 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Column.cs" />
     <Compile Include="Infrastructure\DataGenerator.cs" />
     <Compile Include="Infrastructure\FieldObfuscation.cs" />
     <Compile Include="Infrastructure\IObfuscatorRegistration.cs" />
+    <Compile Include="Infrastructure\ITableRepository.cs" />
+    <Compile Include="Infrastructure\ITableRepositoryFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationType.cs" />
     <Compile Include="Infrastructure\Obfuscator.cs" />
     <Compile Include="Infrastructure\ObfuscatorConfiguration.cs" />
     <Compile Include="Infrastructure\ObfuscatorRegistration.cs" />
+    <Compile Include="Infrastructure\SqlTableRepository.cs" />
+    <Compile Include="Infrastructure\Table.cs" />
     <Compile Include="Obfuscations\FirstNameObfuscation.cs" />
     <Compile Include="Infrastructure\IDataGenerator.cs" />
     <Compile Include="Infrastructure\IObfuscation.cs" />
