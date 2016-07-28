@@ -53,7 +53,6 @@
     <Compile Include="Infrastructure\FieldObfuscation.cs" />
     <Compile Include="Infrastructure\IObfuscatorRegistration.cs" />
     <Compile Include="Infrastructure\ITableRepository.cs" />
-    <Compile Include="Infrastructure\ITableRepositoryFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationFactory.cs" />
     <Compile Include="Infrastructure\ObfuscationType.cs" />
     <Compile Include="Infrastructure\Obfuscator.cs" />
